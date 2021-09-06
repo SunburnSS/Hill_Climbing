@@ -1,0 +1,3 @@
+El algoritmo sólo resuelve con 3 movimientos máximo.
+
+El proyecto se ejecuta en neatbeans.
