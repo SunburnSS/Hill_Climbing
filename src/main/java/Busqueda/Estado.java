@@ -19,8 +19,8 @@ public class Estado {
         
         int v = 0;
         while( v < Valores.length ){
-            for(int i = 0; i < 3; i++){
-                for(int j = 0; j < 3; j++){
+            for(int i = 0; i < tam; i++){
+                for(int j = 0; j < tam; j++){
                     if(Valores[v] == 0){
                         this.blanca[0] = i;
                         this.blanca[1] = j;
@@ -42,7 +42,7 @@ public class Estado {
         //System.out.println("Blanca: "+this.blanca[0]+", "+this.blanca[1]);
     }
 
-    public int[][] ObtenerVecinos(int Vecinos[][]){
+    public int[][] ObtenerVecinos(int Vecinos[][]){ //Modificar
         Vecinos = new int[4][2];
         for(int i = 0; i < 4; i++){
             for(int j = 0; j < 2; j++){
@@ -170,9 +170,39 @@ public class Estado {
         return Vecinos;
     }
     
+    public int[][] ObtenerVecinosNew(int[][] Vecinos){
+        Vecinos = new int[4][2];
+        for(int i = 0; i < 4; i++){
+            for(int j = 0; j < 2; j++){
+                Vecinos[i][j] = -1;
+            }
+        }
+        
+        //Asignación de vecinos
+        
+        if(this.blanca[0] != 0){ //Vecino Up
+            Vecinos[0][0] = this.blanca[0] - 1;
+            Vecinos[0][1] = this.blanca[1];
+        }
+        if(this.blanca[1] != this.tam-1){ //Vecino Right
+            Vecinos[1][0] = this.blanca[0];
+            Vecinos[1][1] = this.blanca[1] + 1;
+        }
+        if(this.blanca[0] != this.tam-1){ //Vecino Down
+            Vecinos[2][0] = this.blanca[0] + 1;
+            Vecinos[2][1] = this.blanca[1];
+        }
+        if(this.blanca[1] != 0){ //Vecino Left
+            Vecinos[3][0] = this.blanca[0];
+            Vecinos[3][1] = this.blanca[1] - 1;
+        }
+        
+        return Vecinos;
+    }
+    
     public int[] ObtenerCorrectas_Vecinos(int a, int b, Estado Meta){
         int n = 0, m = 0, auxi = 0;
-        int[][] aux = new int[3][3];
+        int[][] aux = new int[this.tam][this.tam];
         int[] correctas = new int[2];
         for(int i = 0; i < this.tam; i++){
             for(int j = 0; j < this.tam; j++){
@@ -189,7 +219,6 @@ public class Estado {
             for(int j = 0; j < this.tam; j++){
                 //System.out.println(aux[i][j]+" == "+Meta.Matriz[i][j]);
                 if(aux[i][j] == Meta.Matriz[i][j]){
-                    
                     n++;
                 }else{
                     m++;
@@ -234,7 +263,7 @@ public class Estado {
     
     public double ObtenerTotalEuclidea(int a, int b, Estado actual, Estado Meta){
         int auxi;
-        int[][] aux = new int[3][3];
+        int[][] aux = new int[actual.tam][actual.tam];
         double N = 0;
         for(int i = 0; i < actual.tam; i++){ //Rellena la matriz auxiliar con los datos de la actual
             for(int j = 0; j < actual.tam; j++){
